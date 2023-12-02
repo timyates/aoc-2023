@@ -1,5 +1,7 @@
 package com.bloidonia.aoc2023.day01
 
+import com.bloidonia.aoc2023.lines
+
 val example = """1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
@@ -48,21 +50,21 @@ private fun replacement(s: String): String {
 }
 
 fun main() {
-    val example = example.map { firstLast(it) }.sum()
+    val example = example.sumOf(::firstLast)
     println("example: $example")
 
-    val lines = object {}.javaClass.getResource("/day01.input")!!.readText().lines()
+    val lines = lines("/day01.input")
 
-    val part1 = lines.map { firstLast(it) }.sum()
+    val part1 = lines.sumOf(::firstLast)
     println("$part1")
 
     println("replacement: ${replacement("one")}")
     val example2 = example2
-        .map { replacement(it) }
-        .map { firstLast(it) }
-        .sum()
+        .map(::replacement)
+        .sumOf(::firstLast)
+
     println("example2: $example2")
 
-    val part2 = lines.map { replacement(it) }.map { firstLast(it) }.sum()
+    val part2 = lines.map(::replacement).sumOf(::firstLast)
     println("$part2")
 }

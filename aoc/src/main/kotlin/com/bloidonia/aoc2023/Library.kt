@@ -1,8 +1,3 @@
 package com.bloidonia.aoc2023
 
-class Library {
-
-    fun someLibraryMethod(): Boolean {
-        return true
-    }
-}
+fun lines(resource: String) = object {}.javaClass.getResource(resource)!!.readText().lines()
