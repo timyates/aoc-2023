@@ -2,7 +2,7 @@ package com.bloidonia.aoc2023.day01
 
 import com.bloidonia.aoc2023.lines
 
-val example = """1abc2
+private val example = """1abc2
 pqr3stu8vwx
 a1b2c3d4e5f
 treb7uchet""".lines()
