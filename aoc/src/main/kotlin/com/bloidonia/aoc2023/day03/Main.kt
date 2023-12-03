@@ -2,9 +2,9 @@ package com.bloidonia.aoc2023.day03
 
 import com.bloidonia.aoc2023.lines
 
-private data class Part(val x: IntRange, val y: Int, val value: String)
+private data class Number(val x: IntRange, val y: Int, val value: String)
 private data class Symbol(val x: Int, val y: Int, val value: String)
-private data class Board(val parts: List<Part>, val symbols: List<Symbol>) {
+private data class Board(val numbers: List<Number>, val symbols: List<Symbol>) {
     constructor(input: List<String>) : this(
         input.flatMapIndexed(::numberLocations),
         input.flatMapIndexed(::symbolLocations)
@@ -13,7 +13,7 @@ private data class Board(val parts: List<Part>, val symbols: List<Symbol>) {
 
 private fun numberLocations(y: Int, line: String) = Regex("""\d+""")
     .findAll(line)
-    .map { r -> Part(r.range, y, r.groupValues[0]) }
+    .map { r -> Number(r.range, y, r.groupValues[0]) }
     .toList()
 
 private fun symbolLocations(y: Int, line: String) = Regex("""[^\d.]""")
@@ -21,20 +21,23 @@ private fun symbolLocations(y: Int, line: String) = Regex("""[^\d.]""")
     .map { r -> Symbol(r.range.first, y, r.groupValues[0]) }
     .toList()
 
-private fun partAdjacent(part: Part, symbols: List<Symbol>) = symbols.any { symbol ->
-    symbol.x in (part.x.first - 1..part.x.last + 1) && symbol.y in (part.y - 1)..(part.y + 1)
+private fun partAdjacent(number: Number, symbols: List<Symbol>) = symbols.any { symbol ->
+    symbol.x in (number.x.first - 1..number.x.last + 1)
+            && symbol.y in (number.y - 1)..(number.y + 1)
 }
 
-private fun numberAdjacent(symbol: Symbol, numbers: List<Part>) = numbers.filter { n ->
+private fun numberAdjacent(symbol: Symbol, numbers: List<Number>) = numbers.filter { n ->
     (symbol.x - 1..symbol.x + 1).intersect(n.x).isNotEmpty()
             && n.y in (symbol.y - 1..symbol.y + 1)
 }
 
-private fun part1(input: Board) = input.parts.filter { n -> partAdjacent(n, input.symbols) }
+private fun part1(input: Board) = input.numbers
+    .filter { n -> partAdjacent(n, input.symbols) }
     .sumOf { it.value.toInt() }
 
-private fun part2(input: Board) = input.symbols.filter { it.value == "*" }
-    .map { numberAdjacent(it, input.parts) }
+private fun part2(input: Board) = input.symbols
+    .filter { it.value == "*" }
+    .map { numberAdjacent(it, input.numbers) }
     .filter { it.size == 2 }
     .sumOf { it.first().value.toLong() * it.last().value.toLong() }
 
