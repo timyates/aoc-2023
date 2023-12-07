@@ -25,13 +25,13 @@ data class Cards(
     val rank: Int = (if (part1) cards else cards.filter { it != "J" }).groupBy { it }.values.map { it.size }.sortedDescending().let { counts ->
         val jokers = if (part1) 0 else cards.count { it == "J" }
         when {
-            jokers == 5 || counts[0] + jokers == 5 -> 7
-            counts[0] + jokers == 4 -> 6
-            counts[0] + jokers == 3 && counts[1] == 2 -> 5
-            counts[0] + jokers == 3 -> 4
-            counts[0] + jokers == 2 && counts[1] == 2 -> 3
-            counts[0] + jokers == 2 -> 2
-            else -> 1
+            jokers == 5 || counts[0] + jokers == 5 -> 7 // Five of a kind
+            counts[0] + jokers == 4 -> 6 // Four of a kind
+            counts[0] + jokers == 3 && counts[1] == 2 -> 5 // Full house
+            counts[0] + jokers == 3 -> 4 // Three of a kind
+            counts[0] == 2 && counts[1] == 2 -> 3 // Two pair -- can't be got with Jokers
+            counts[0] + jokers == 2 -> 2 // One pair
+            else -> 1 // High card
         }
     },
     // Score is a base 14 number
