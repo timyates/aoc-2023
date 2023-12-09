@@ -8,16 +8,16 @@ Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
 Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green"""
 
-data class Move(val red: Long, val green: Long, val blue: Long) {
+private data class Move(val red: Long, val green: Long, val blue: Long) {
     operator fun plus(other: Move) = Move(red + other.red, green + other.green, blue + other.blue)
     fun power() = red * green * blue
 }
 
-data class Game(val id: Int, val moves: List<Move>) {
+private data class Game(val id: Int, val moves: List<Move>) {
     fun max() = moves.reduce { a, b -> Move(maxOf(a.red, b.red), maxOf(a.green, b.green), maxOf(a.blue, b.blue)) }
 }
 
-fun parseGame(s: String) = Regex("""Game (\d+): (.+)""").matchEntire(s)!!.let {
+private fun parseGame(s: String) = Regex("""Game (\d+): (.+)""").matchEntire(s)!!.let {
     val (game, moves) = it.destructured
     Game(game.toInt(), moves.split("; ").map { move ->
         Regex("""(\d+) (blue|red|green)""").findAll(move).map { match ->
@@ -32,7 +32,7 @@ fun parseGame(s: String) = Regex("""Game (\d+): (.+)""").matchEntire(s)!!.let {
     })
 }
 
-fun part1(game: Game) = game.moves.all { it.red <= 12 && it.green <= 13 && it.blue <= 14 }
+private fun part1(game: Game) = game.moves.all { it.red <= 12 && it.green <= 13 && it.blue <= 14 }
 
 fun main() {
     val result1 = example1.lines().map(::parseGame).filter(::part1).sumOf { it.id }

@@ -12,14 +12,14 @@ QQQJA 483"""
 private val part1CardOrder = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A")
 private val part2CardOrder = listOf("J", "1", "2", "3", "4", "5", "6", "7", "8", "9", "T", "Q", "K", "A")
 
-data class Hand(val cards: Cards, val bet: Long) {
+private data class Hand(val cards: Cards, val bet: Long) {
     constructor(line: String, part1: Boolean) : this(
         Cards(line.split(Regex("\\s+"))[0].toList().map { "$it" }, part1),
         line.split(Regex("\\s+"))[1].toLong(),
     )
 }
 
-data class Cards(
+private data class Cards(
     val cards: List<String>,
     val part1: Boolean,
     val rank: Int = (if (part1) cards else cards.filter { it != "J" }).groupBy { it }.values.map { it.size }.sortedDescending().let { counts ->

@@ -1,6 +1,6 @@
 package com.bloidonia.aoc2023.day01
 
-val mapping = mapOf(
+private val mapping = mapOf(
     "one" to 1,
     "two" to 2,
     "three" to 3,
