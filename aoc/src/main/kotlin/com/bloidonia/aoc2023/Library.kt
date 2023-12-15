@@ -1,6 +1,7 @@
 package com.bloidonia.aoc2023
 
-fun lines(resource: String) = object {}.javaClass.getResource(resource)!!.readText().lines()
+fun lines(resource: String) = text(resource).lines()
+fun text(resource: String) = object {}.javaClass.getResource(resource)!!.readText()
 
 fun gcd(x: Long, y: Long): Long {
     return if (y == 0L) x else gcd(y, x % y)
